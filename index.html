@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MATH GAME</title>
+</head>
+<body>
+<script>
+    let firstMultiplier = +prompt(`Первый множитель. Введите целое число, больше 0`) // числа дожны быть целыми
+    let secondMultiplier = +prompt(`Второй множитель. Введите целое число, больше 0`) // числа дожны быть целыми
+    while (!Number.isInteger(firstMultiplier) && !Number.isInteger(secondMultiplier) && firstMultiplier > 0 && secondMultiplier > 0 ) {
+        firstMultiplier = +prompt(`Первый множитель. Введите целое число, больше 0`)
+        secondMultiplier = +prompt(`Второй множитель. Введите целое число, больше 0`)
+    } // пока они оба не целые, дальше не пускаем
+    let product = firstMultiplier*secondMultiplier //перемножаем оба целых
+    let mainArray = Array.from(product.toString(), Number) //делаем из них массив [число, число, число]
+    let countOfAttempts = mainArray.length + 2 // рандомно поставил 2, надо тестить
+
+    function arrayToIndexMap(mainArray) {
+        return mainArray.reduce((map, element, i) => {
+            if (map.has(element)) map.get(element).push(i)
+            else map.set(element, [i])
+            return map
+        }, new Map())
+    } // преобразует все элементы в мапу( в дальнейшем можно использовать для отображения позиций, но пока скилла не хваатет на это)
+      // сделал на будущее
+    arrayToIndexMap(mainArray)
+    let userAnswerMap = new Map
+    for (let i = 1; i <= countOfAttempts ; i++) {
+        let helper1 = Array.from(arrayToIndexMap(mainArray))
+        helper1 = helper1.flat(2) // преобразуем многомерный массив в одномерный [[1,0],1] => [1,0,1]
+        helper1 = helper1.map(i=>x+=i, x=0).reverse()[0] // складываем числа массива
+        let helper2 = Array.from(userAnswerMap)
+        helper2 = helper2.flat(2) // преобразуем многомерный массив в одномерный [[1,0],1] => [1,0,1]
+        helper2 = helper2.map(i=>x+=i, x=0).reverse()[0] // складываем числа массива
+
+        if (helper1 === helper2 ) {
+            alert(`Ваше число: ${product}`)
+            break
+        }
+        let valueFromUser = +prompt(`Введите целое число от 0 до 9`)
+        while (valueFromUser > 9 && valueFromUser < 0 ) {
+            valueFromUser = +prompt(`Нужно ввести целое число от 0 до 9`)
+        }
+        let helperToShowPosition
+        if (arrayToIndexMap(mainArray).has(valueFromUser) === true) {
+            userAnswerMap.set(valueFromUser, arrayToIndexMap(mainArray).get(valueFromUser))
+            alert(`вы угадали, число ${valueFromUser} находится на позиции ${helperToShowPosition =
+                userAnswerMap
+                    .get(valueFromUser)
+                    .map(x => x+1)}`)
+        }
+
+    else {
+            alert(`Осталось попыток: ${countOfAttempts - i } `)
+        // все понятно, я думаю
+        }
+        if (countOfAttempts - i === 0) {
+            alert(`вы проиграли, ваше число: ${product}`)
+        }
+
+    }
+
+
+</script>
+</body>
+</html>
